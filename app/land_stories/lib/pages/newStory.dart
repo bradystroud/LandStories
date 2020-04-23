@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../Database/Database.dart';
 import '../Database/StoryModel.dart';
-import './textField.dart';
+import '../widgets/textField.dart';
 
 
 class NewStory extends StatefulWidget {

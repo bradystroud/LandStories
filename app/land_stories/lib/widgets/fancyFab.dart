@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:land_stories/widgets/newStory.dart';
+
+import '../pages/newStory.dart';
 
 // https://medium.com/@agungsurya/create-a-simple-animated-floatingactionbutton-in-flutter-2d24f37cfbcc
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../widgets/newStory.dart';
 import '../Database/Database.dart';
 import '../Database/StoryModel.dart';
-import './modify.dart';
+import '../pages/modify.dart';
 
 class StoryView extends StatefulWidget {
   @override
@@ -32,7 +31,7 @@ class _StoryViewState extends State<StoryView> {
             ));
           } else {
             return ListView.separated(
-              scrollDirection: Axis.vertical, //Need to make horizontal scrolling list
+              scrollDirection: Axis.vertical, //TODO: Need to make horizontal scrolling list
               separatorBuilder: (context, index) => Divider(
                 color: Colors.grey,
                 thickness: 0.15,
@@ -53,7 +52,7 @@ class _StoryViewState extends State<StoryView> {
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight
-                                  .bold), //bold doesnt work on ipad on current versions
+                                  .bold), //TODO: bold doesnt work on ipad on current versions
                         ),
                         Text(item.context)
                       ],

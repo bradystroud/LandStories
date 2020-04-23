@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-
-
-
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -33,7 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   trailing: CupertinoSwitch(
                     value: _currentSwitchValue,
                     onChanged: (value) {
-                      print("switch flipped: " + _currentSwitchValue.toString());
+                      print(
+                          "switch flipped: " + _currentSwitchValue.toString());
                       setState(() {
                         _currentSwitchValue = value;
                       });
@@ -45,7 +43,6 @@ class _SettingsPageState extends State<SettingsPage> {
             PlatformButton(
               child: Text("Feedback"),
               onPressed: () {
-
                 _showDialouge();
               },
             )
@@ -69,11 +66,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: Text("Ok"),
-              onPressed: () {null;}
-              // onPressed: () {},
-            ),
+            FlatButton(child: Text("Ok"), onPressed: () {}
+                // onPressed: () {},
+                ),
           ],
         );
       },

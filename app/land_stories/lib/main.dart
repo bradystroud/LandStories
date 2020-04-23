@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './widgets/home.dart';
+import './widgets/fancyFab.dart';
+import './widgets/StoryView.dart';
+import './widgets/sliverHeader.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -10,9 +12,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   @override
   Widget build(BuildContext context) {
-    return Home();
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverHeader(),
+          ];
+        },
+        body: StoryView(),
+      ),
+      floatingActionButton: FancyFab(),
+    );
   }
 }

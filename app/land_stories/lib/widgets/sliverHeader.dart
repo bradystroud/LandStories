@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/SettingsPage.dart';
 
-class CoolHeader extends StatelessWidget {
+class SliverHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
