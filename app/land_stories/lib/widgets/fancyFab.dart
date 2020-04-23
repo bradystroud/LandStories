@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:land_stories/widgets/newStory.dart';
 
 // https://medium.com/@agungsurya/create-a-simple-animated-floatingactionbutton-in-flutter-2d24f37cfbcc
 
@@ -76,7 +76,16 @@ class _FancyFabState extends State<FancyFab>
   Widget add() {
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
+        heroTag: 1,
+        onPressed: () {
+          animate();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NewStory(),
+            ),
+          );
+        },
         tooltip: 'Add',
         child: Icon(Icons.add),
       ),
@@ -86,8 +95,12 @@ class _FancyFabState extends State<FancyFab>
   Widget addAlert() {
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Inbox',
+        heroTag: 2,
+        onPressed: () {
+          animate();
+          print("add new alert");
+        },
+        tooltip: 'Add alert',
         child: Icon(Icons.add_alert),
       ),
     );
@@ -96,6 +109,7 @@ class _FancyFabState extends State<FancyFab>
   Widget toggle() {
     return Container(
       child: FloatingActionButton(
+        heroTag: 3,
         backgroundColor: _buttonColor.value,
         onPressed: animate,
         tooltip: 'Toggle',
