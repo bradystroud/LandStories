@@ -9,7 +9,7 @@ Progress update screenshots.
 
 <img src="Documentation/screenshots/home2.png" alt="Image" width="200"/>
 
-<img src="Documentation/screenshots/newStory.png" alt="Image" width="200"/>
+<img src="Documentation/screenshots/newstory.png" alt="Image" width="200"/>
 
 <img src="Documentation/screenshots/home3.png" alt="Image" width="200"/>
 
