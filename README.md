@@ -5,9 +5,15 @@ This app is designed and built for a school project.
 
 Progress update screenshots.
 
-![Image](Documentation/screenshots/home1.png)
-![Image](Documentation/screenshots/home2.png)
-![Image](Documentation/screenshots/newStory.png)
-![Image](Documentation/screenshots/home3.png)
-![Image](Documentation/screenshots/modify.png)
-![Image](Documentation/screenshots/settings.png)
+<img src="Documentation/screenshots/home1.png" alt="Image" width="200"/>
+
+<img src="Documentation/screenshots/home2.png" alt="Image" width="200"/>
+
+<img src="Documentation/screenshots/newStory.png" alt="Image" width="200"/>
+
+<img src="Documentation/screenshots/home3.png" alt="Image" width="200"/>
+
+<img src="Documentation/screenshots/modify.png" alt="Image" width="200"/>
+
+<img src="Documentation/screenshots/settings.png" alt="Image" width="200"/>
+The 'Insert testing data' and 'delete all' buttons are for testing. 
