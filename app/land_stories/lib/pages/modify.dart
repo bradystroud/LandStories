@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../Database/Database.dart';
+
 import '../Database/StoryModel.dart';
 import '../widgets/textField.dart';
 
@@ -41,12 +42,22 @@ class _ModifyState extends State<Modify> {
                   status: story.status,
                 );
                 await DBProvider.db.updateStory(modifiedStory);
-                setState(() {});
                 print(
                     "updated " + controller1.text + " and " + controller2.text);
                 Navigator.pop(context);
               },
               child: Text("Save"),
+            ),
+            FlatButton(
+              child: Text(
+                "Delete",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () async {
+                await DBProvider.db.deleteStories(story.id);
+                Navigator.pop(context);
+              },
+              color: Colors.red,
             ),
           ],
         ),

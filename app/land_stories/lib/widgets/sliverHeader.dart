@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/SettingsPage.dart';
+import '../pages/SettingsPage.dart';
 
 class SliverHeader extends StatelessWidget {
   @override

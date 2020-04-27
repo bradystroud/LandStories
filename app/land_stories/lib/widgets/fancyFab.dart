@@ -99,7 +99,10 @@ class _FancyFabState extends State<FancyFab>
         heroTag: 2,
         onPressed: () {
           animate();
-          print("add new alert");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NewStory()),
+          );
         },
         tooltip: 'Add alert',
         child: Icon(Icons.add_alert),
