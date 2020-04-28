@@ -1,26 +1,26 @@
-#Land Stories
+# Land Stories
 A mobile app that stores quick snippets of things spotted outside and reminds you of tasks that need to get done. 
 
 This app is designed and built for a school project.
 
-##Features
+## Features
 
-####Completed features:
+#### Completed features:
 	
 * Add, edit and delete stories
 	
-####Features in progress:
+#### Features in progress:
 	
 * Reminders
 * Capture and save images with stories
 * Identify weeds and other species
 	
-####Future features
+#### Future features
 	
 * Sharing stories with other users
 
 
-##Progress update screenshots:
+## Progress update screenshots:
 
 <img src="Documentation/screenshots/home1.png" alt="Image" width="200"/>
 
