@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:land_stories/widgets/heading.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 import '../Database/Database.dart';
@@ -22,6 +23,32 @@ class _StoryViewState extends State<StoryView> {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+       Heading("Stories"),
+        FutureVScrollList(),
+        Heading("Tasks"),
+        FutureVScrollList(),
+      ],
+    );
+  }
+}
+
+class FutureVScrollList extends StatefulWidget {
+  @override
+  _FutureVScrollListState createState() => _FutureVScrollListState();
+}
+
+class _FutureVScrollListState extends State<FutureVScrollList> {
+    int _focusedIndex = 0;
+
+  void _onItemFocus(int index) {
+    setState(() {
+      _focusedIndex = index;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<List<Story>>(
       future: DBProvider.db.getAllStories(),
       builder: (BuildContext context, AsyncSnapshot<List<Story>> snapshot) {
@@ -42,21 +69,14 @@ class _StoryViewState extends State<StoryView> {
             return Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
+                  margin: EdgeInsets.symmetric(vertical: 10.0),
                   height: 200,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                     child: ScrollSnapList(
                       itemSize: 220,
                       onItemFocus: _onItemFocus,
                       scrollDirection: Axis.horizontal,
-                      //TODO: Need to make horizontal scrolling list
-                      // separatorBuilder: (context, index) => Divider(
-                      //   color: Colors.grey,
-                      //   thickness: 0.15,
-                      //   indent: 10,
-                      //   endIndent: 10,
-                      // ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         Story item = snapshot.data[index];
@@ -76,7 +96,6 @@ class _StoryViewState extends State<StoryView> {
                                 child: Card(
                                   color: Colors.blueAccent,
                                   child: Row(children: [
-                                    //TODO: This widget was taken from another project. it was originally used as a traditional vertical scrolling view. I need to get all the functionality from the commented out sections onto this Horizontal scroll view. ListView() doesnt like horizontal scrolling but still accepts the parameter.
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
@@ -90,7 +109,8 @@ class _StoryViewState extends State<StoryView> {
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
-                                              ), //TODO: bold doesnt work on ipad on current os versions
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                           Container(

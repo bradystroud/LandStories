@@ -33,22 +33,25 @@ class _ModifyState extends State<Modify> {
           children: <Widget>[
             TextFieldWidget(story.heading, 30, controller1),
             TextFieldWidget(story.context, 100, controller2),
-            FlatButton(
-              onPressed: () async {
-                Story modifiedStory = Story(
-                  id: story.id,
-                  heading: checkNull(story.heading, controller1.text),
-                  context: checkNull(story.context, controller2.text),
-                  status: story.status,
-                );
-                await DBProvider.db.updateStory(modifiedStory);
-                print(
-                    "updated " + controller1.text + " and " + controller2.text);
-                Navigator.pop(context);
-              },
-              child: Text("Save"),
-            ),
-            FlatButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () async {
+                    Story modifiedStory = Story(
+                      id: story.id,
+                      heading: checkNull(story.heading, controller1.text),
+                      context: checkNull(story.context, controller2.text),
+                      status: story.status,
+                    );
+                    await DBProvider.db.updateStory(modifiedStory);
+                    print(
+                        "updated " + controller1.text + " and " + controller2.text);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Save"),
+                ),
+                FlatButton(
               child: Text(
                 "Delete",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -59,6 +62,9 @@ class _ModifyState extends State<Modify> {
               },
               color: Colors.red,
             ),
+              ],
+            ),
+            
           ],
         ),
       ),
