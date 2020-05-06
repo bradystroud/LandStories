@@ -14,19 +14,52 @@ class Story {
   int id;
   String heading;
   String context;
-  bool status;
+
 
   Story({
     this.id,
     this.heading,
     this.context,
-    this.status,
   });
 
   factory Story.fromMap(Map<String, dynamic> json) => new Story(
         id: json["id"],
         heading: json["heading"],
         context: json["context"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "heading": heading,
+        "context": context,
+      };
+}
+
+Task taskFromJson(String str) {
+  final jsonData = json.decode(str);
+  return Task.fromMap(jsonData);
+}
+
+class Task {
+  int id;
+  String heading;
+  String context;
+  int due;
+  bool status;
+
+  Task({
+    this.id,
+    this.heading,
+    this.context,
+    this.due,
+    this.status,
+  });
+
+  factory Task.fromMap(Map<String, dynamic> json) => new Task(
+        id: json["id"],
+        heading: json["heading"],
+        context: json["context"],
+        due: json["due"],
         status: json["status"] == 1,
       );
 
@@ -34,6 +67,8 @@ class Story {
         "id": id,
         "heading": heading,
         "context": context,
+        "due": due,
         "status": status,
       };
 }
+

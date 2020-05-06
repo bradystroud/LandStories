@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/newStory.dart';
+import '../pages/newTask.dart';
 
 // https://medium.com/@agungsurya/create-a-simple-animated-floatingactionbutton-in-flutter-2d24f37cfbcc
 
@@ -93,7 +94,7 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  Widget addAlert() {
+  Widget addTask() {
     return Container(
       child: FloatingActionButton(
         heroTag: 2,
@@ -101,7 +102,7 @@ class _FancyFabState extends State<FancyFab>
           animate();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NewStory()),
+            MaterialPageRoute(builder: (context) => NewTask()),
           );
         },
         tooltip: 'Add alert',
@@ -144,7 +145,7 @@ class _FancyFabState extends State<FancyFab>
             _translateButton.value,
             0.0,
           ),
-          child: addAlert(),
+          child: addTask(),
         ),
         toggle(),
       ],

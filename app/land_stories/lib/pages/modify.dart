@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../Database/Database.dart';
 
-import '../Database/StoryModel.dart';
+import '../Database/Models.dart';
 import '../widgets/textField.dart';
 
 class Modify extends StatefulWidget {
@@ -42,7 +42,6 @@ class _ModifyState extends State<Modify> {
                       id: story.id,
                       heading: checkNull(story.heading, controller1.text),
                       context: checkNull(story.context, controller2.text),
-                      status: story.status,
                     );
                     await DBProvider.db.updateStory(modifiedStory);
                     print(

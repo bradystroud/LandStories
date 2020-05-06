@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'StoryModel.dart';
+import 'Models.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
@@ -28,9 +28,16 @@ class DBProvider {
       await db.execute("CREATE TABLE Stories ("
           "id INTEGER PRIMARY KEY,"
           "heading TEXT,"
+          "context TEXT"
+          ");");
+          print("up to 2nd ");
+      await db.execute("CREATE TABLE Tasks ("
+          "id INTEGER PRIMARY KEY,"
+          "heading TEXT,"
           "context TEXT,"
-          "status INTEGER"
-          ")");
+          "due INTEGER,"
+          "status BOOLEAN"
+          ");");
     });
   }
 
@@ -41,21 +48,36 @@ class DBProvider {
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into Stories (id,heading,context,status)"
-        " VALUES (?,?,?,?)",
-        [id, newStory.heading, newStory.context, newStory.status]);
+        "INSERT Into Stories (id,heading,context)"
+        " VALUES (?,?,?)",
+        [id, newStory.heading, newStory.context]);
     return raw;
   }
 
-  changeStatus(Story story) async {
+  newTask(Task newTask) async {
+    print("object");
     final db = await database;
-    Story status = Story(
-        id: story.id,
-        heading: story.heading,
-        context: story.context,
-        status: !story.status);
-    var res = await db.update("Stories", status.toMap(),
-        where: "id = ?", whereArgs: [story.id]);
+    //get the biggest id in the table
+    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Tasks");
+    int id = table.first["id"];
+    //insert to the table using the new id
+    var raw = await db.rawInsert(
+        "INSERT Into Tasks (id,heading,context,due,status)"
+        " VALUES (?,?,?,?,?)",
+        [id, newTask.heading, newTask.context, newTask.due, newTask.status]);
+    return raw;
+  }
+
+  changeStatus(Task task) async {
+    final db = await database;
+    Task status = Task(
+        id: task.id,
+        heading: task.heading,
+        context: task.context,
+        due: task.due,
+        status: !task.status);
+    var res = await db.update("Tasks", status.toMap(),
+        where: "id = ?", whereArgs: [task.id]);
     return res;
   }
 
@@ -67,16 +89,28 @@ class DBProvider {
     return res;
   }
 
+  updateTask(Task newTask) async {
+    final db = await database;
+    print('updating id of:'+ newTask.id.toString());
+    var res = await db.update("Tasks", newTask.toMap(),
+        where: "id = ?", whereArgs: [newTask.id]);
+    return res;
+  }
+
   getStory(int id) async {
     final db = await database;
     var res = await db.query("Stories", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? Story.fromMap(res.first) : null;
   }
 
+  getTask(int id) async {
+    final db = await database;
+    var res = await db.query("Tasks", where: "id = ?", whereArgs: [id]);
+    return res.isNotEmpty ? Task.fromMap(res.first) : null;
+  }
+
   Future<List<Story>> getBlockedStories() async {
     final db = await database;
-
-    print("works");
     // var res = await db.rawQuery("SELECT * FROM Story WHERE blocked=1");
     var res = await db.query("Stories", where: "status = ? ", whereArgs: [1]);
 
@@ -93,27 +127,29 @@ class DBProvider {
     return list;
   }
 
+  Future<List<Task>> getAllTasks() async {
+    final db = await database;
+    var res = await db.query("Tasks");
+    List<Task> list =
+        res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list;
+  }
+
   deleteStories(int id) async {
     final db = await database;
     return db.delete("Stories", where: "id = ?", whereArgs: [id]);
   }
 
+  deleteTasks(int id) async {
+    final db = await database;
+    return db.delete("Tasks", where: "id = ?", whereArgs: [id]);
+  }
+
   deleteAll() async {
     final db = await database;
-    db.rawDelete("Delete * from Stories");
-  }
-  check0() async {
-    final db = await database;
-    int count =  Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM Stories'));
-
-    print(count);
-    if (count == 0) {
-      print("0");
-      return "hello";
-    }
-    else {
-      print("1");
-      return "goodbye";
+    for(int i = 0; i < 100; i++) {
+      db.delete("Stories", where: "id = ?", whereArgs: [i]);
+      db.delete("Tasks", where: "id = ?", whereArgs: [i]);
     }
   }
 }

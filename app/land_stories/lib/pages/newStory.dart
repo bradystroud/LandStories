@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 import '../Database/getW3W.dart';
 import '../Database/Database.dart';
-import '../Database/StoryModel.dart';
+import '../Database/Models.dart';
 import '../widgets/textField.dart';
 
 class NewStory extends StatefulWidget {
@@ -47,7 +46,6 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
         value.latitude.toString(),
         value.longitude.toString(),
       );
-      // setState(() {});
     });
   }
 
@@ -72,19 +70,17 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
                 print(snapshot.data.words);
                 return Column(
                   children: <Widget>[
-                    Material(child: Text('W3W Location: '+snapshot.data.words, style: TextStyle(fontSize: 20,),)),
-                    FlatButton(
-                      child: Text("Get location"),
-                      onPressed: () async {
-                        futureWhat3Words = null;
-                        setState(() {});
-                        //Makes futureW3W null, so the CircularProgressIndicator appears
-                        _displayCurrentLocation().then((value) {
-                          futureWhat3Words = fetchWhat3Words(
-                              value.latitude.toString(),
-                              value.longitude.toString());
-                        });
-                      },
+                    RichText(
+                      text: TextSpan(
+                        text: '/// ',
+                        style: TextStyle(color: Colors.red),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'W3W Location',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: snapshot.data.words),
+                        ],
+                      ),
                     ),
                   ],
                 );
@@ -100,7 +96,6 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
               Story newStory = Story(
                 heading: controller1.text,
                 context: controller2.text,
-                status: false,
               );
               await DBProvider.db.newStory(newStory);
               setState(() {});
