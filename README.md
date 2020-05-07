@@ -8,16 +8,20 @@ This app is designed and built for a school project.
 #### Completed features:
 	
 * Add, edit and delete stories
+* Tasks turn red when past due date
+* Tasks change colour based on status - done(blue), not done (red)
+* Save changes - oldValue, newValue, DateTime, assosiating story/task id
 	
 #### Features in progress:
 	
-* Reminders
 * Capture and save images with stories
 * Identify weeds and other species
 	
 #### Future features
 	
 * Sharing stories with other users
+* Better accessibility
+* Better dark mode
 
 
 ## Progress update screenshots:
