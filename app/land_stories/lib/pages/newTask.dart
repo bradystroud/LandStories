@@ -56,20 +56,19 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
 
   Widget dateTimePicker() {
     return CupertinoDatePicker(
-      initialDateTime: DateTime.now().add(Duration(hours: 1)),
-      onDateTimeChanged: (DateTime dateTime) {
-        print(dateTime);
-        reminderTime = dateTime;
-        getUnixTime(reminderTime);
-        setState(() {});
-      },
-      mode: CupertinoDatePickerMode.dateAndTime,
-      minuteInterval: 1,
-      minimumDate: DateTime.now()
-    );
+        initialDateTime: DateTime.now().add(Duration(hours: 1)),
+        onDateTimeChanged: (DateTime dateTime) {
+          print(dateTime);
+          reminderTime = dateTime;
+          getUnixTime(reminderTime);
+          setState(() {});
+        },
+        mode: CupertinoDatePickerMode.dateAndTime,
+        minuteInterval: 1,
+        minimumDate: DateTime.now());
   }
 
-  getUnixTime (DateTime reminderTime) {
+  getUnixTime(DateTime reminderTime) {
     print(reminderTime);
     reminderUnixTime = reminderTime.millisecondsSinceEpoch ~/ 1000;
   }
@@ -104,14 +103,24 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
                   print(snapshot.data.words);
                   return Column(
                     children: <Widget>[
-                      Material(
-                          child: Text(
-                        'W3W Location: ' + snapshot.data.words,
-                        style: TextStyle(
-                          fontSize: 17,
+                      RichText(
+                        text: TextSpan(
+                          text: '/// ',
+                          style: TextStyle(color: Colors.red, fontSize: 20),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'W3W Location: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                            TextSpan(
+                              text: snapshot.data.words,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
                         ),
-                      )),
-                       PlatformButton(
+                      ),
+                      PlatformButton(
                         child: Text("Get location"),
                         onPressed: () async {
                           futureWhat3Words = null;
@@ -152,7 +161,10 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
                         });
                   },
                 ),
-                Material(child: Text(new DateFormat('yMMMMd').add_jm().format(reminderTime))),
+                Material(
+                    child: Text(new DateFormat('yMMMMd')
+                        .add_jm()
+                        .format(reminderTime))),
               ],
             ),
           ),

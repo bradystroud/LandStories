@@ -15,7 +15,6 @@ class Story {
   String heading;
   String context;
 
-
   Story({
     this.id,
     this.heading,
@@ -72,3 +71,39 @@ class Task {
       };
 }
 
+Task changeFromJson(String str) {
+  final jsonData = json.decode(str);
+  return Task.fromMap(jsonData);
+}
+
+class Change {
+  int id;
+  int storyid;
+  String datetime;
+  String newValue;
+  String oldValue;
+
+  Change({
+    this.id,
+    this.storyid,
+    this.datetime,
+    this.newValue,
+    this.oldValue,
+  });
+
+  factory Change.fromMap(Map<String, dynamic> json) => new Change(
+        id: json["id"],
+        storyid: json["storyid"],
+        datetime: json["datetime"],
+        newValue: json["newValue"],
+        oldValue: json["oldValue"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "storyid": storyid,
+        "datetime": datetime,
+        "newValue": newValue,
+        "oldValue": oldValue,
+      };
+}

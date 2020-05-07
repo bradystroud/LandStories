@@ -44,26 +44,36 @@ class _ModifyState extends State<Modify> {
                       context: checkNull(story.context, controller2.text),
                     );
                     await DBProvider.db.updateStory(modifiedStory);
-                    print(
-                        "updated " + controller1.text + " and " + controller2.text);
+
+                    Change change = Change( //records change
+                      storyid: story.id,
+                      datetime: DateTime.now().toString(),
+                      newValue: controller1.text + controller2.text,
+                      oldValue: story.heading + story.context,
+                    );
+                    await DBProvider.db.newChange(change);
+
+                    print("updated " +
+                        controller1.text +
+                        " and " +
+                        controller2.text);
                     Navigator.pop(context);
                   },
                   child: Text("Save"),
                 ),
                 FlatButton(
-              child: Text(
-                "Delete",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: () async {
-                await DBProvider.db.deleteStories(story.id);
-                Navigator.pop(context);
-              },
-              color: Colors.red,
-            ),
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () async {
+                    await DBProvider.db.deleteStories(story.id);
+                    Navigator.pop(context);
+                  },
+                  color: Colors.red,
+                ),
               ],
             ),
-            
           ],
         ),
       ),

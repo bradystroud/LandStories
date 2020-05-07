@@ -30,15 +30,41 @@ class DBProvider {
           "heading TEXT,"
           "context TEXT"
           ");");
-          print("up to 2nd ");
       await db.execute("CREATE TABLE Tasks ("
           "id INTEGER PRIMARY KEY,"
           "heading TEXT,"
           "context TEXT,"
           "due INTEGER,"
-          "status BOOLEAN"
+          "status INTEGER" //Works as int but not
+          ");");
+      await db.execute("CREATE TABLE Changes ("
+          "id INTEGER PRIMARY KEY,"
+          "storyid INTEGER,"
+          "datetime INTEGER,"
+          "newValue TEXT,"
+          "oldValue TEXT"
           ");");
     });
+  }
+
+  newChange(Change change) async {
+    final db = await database;
+    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Changes");
+    int id = table.first["id"];
+    if (id == null) { //Don't know why i need this... dont need it on any other tables but it makes it work so i need it.
+      id = 1;
+    }
+    var insert = await db.rawInsert(
+        "INSERT Into Changes (id,storyid,datetime,newValue,oldValue)"
+        " VALUES (?,?,?,?,?)",
+        [
+          id,
+          change.storyid,
+          change.datetime,
+          change.newValue,
+          change.oldValue
+        ]);
+    return insert;
   }
 
   newStory(Story newStory) async {
@@ -55,7 +81,6 @@ class DBProvider {
   }
 
   newTask(Task newTask) async {
-    print("object");
     final db = await database;
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Tasks");
@@ -64,7 +89,13 @@ class DBProvider {
     var raw = await db.rawInsert(
         "INSERT Into Tasks (id,heading,context,due,status)"
         " VALUES (?,?,?,?,?)",
-        [id, newTask.heading, newTask.context, newTask.due, newTask.status]);
+        [
+          id,
+          newTask.heading,
+          newTask.context,
+          newTask.due,
+          newTask.status,
+        ]);
     return raw;
   }
 
@@ -76,14 +107,18 @@ class DBProvider {
         context: task.context,
         due: task.due,
         status: !task.status);
-    var res = await db.update("Tasks", status.toMap(),
-        where: "id = ?", whereArgs: [task.id]);
+    var res = await db.update(
+      "Tasks",
+      status.toMap(),
+      where: "id = ?",
+      whereArgs: [task.id],
+    );
     return res;
   }
 
   updateStory(Story newStory) async {
     final db = await database;
-    print('updating id of:'+ newStory.id.toString());
+    print('updating id of:' + newStory.id.toString());
     var res = await db.update("Stories", newStory.toMap(),
         where: "id = ?", whereArgs: [newStory.id]);
     return res;
@@ -91,7 +126,7 @@ class DBProvider {
 
   updateTask(Task newTask) async {
     final db = await database;
-    print('updating id of:'+ newTask.id.toString());
+    print('updating id of:' + newTask.id.toString());
     var res = await db.update("Tasks", newTask.toMap(),
         where: "id = ?", whereArgs: [newTask.id]);
     return res;
@@ -147,7 +182,7 @@ class DBProvider {
 
   deleteAll() async {
     final db = await database;
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       db.delete("Stories", where: "id = ?", whereArgs: [i]);
       db.delete("Tasks", where: "id = ?", whereArgs: [i]);
     }

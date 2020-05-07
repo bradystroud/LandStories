@@ -242,12 +242,14 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
-
+  bool test = false;
   Task item;
 
   Color checkDueDate(dueDate) {
-    if(dueDate > DateTime.now().millisecondsSinceEpoch / 1000){
+    if (dueDate > DateTime.now().millisecondsSinceEpoch / 1000) {
       return Colors.blueAccent;
+    } else if (item.status) {
+        return Colors.blueAccent;
     } else {
       return Colors.red;
     }
@@ -296,17 +298,16 @@ class _TaskCardState extends State<TaskCard> {
                     Container(
                       child: Checkbox(
                         value: item.status,
-                        onChanged: (bool value) {
+                        activeColor: Colors.lightBlueAccent,
+                        onChanged: (bool newValue) {
                           DBProvider.db.changeStatus(item);
-                          print("status for " +
-                              item.heading +
-                              " is changed: " +
-                              item.status.toString());
-                          setState(() {value;
-                          item.status;});
-                        },
-                      ),
+                          setState(() {
+                            item.status = newValue;
+                          });
+                          print("changed status: "+item.status.toString());
+                        }),
                     ),
+                    
                     Text(item.due.toString()),
                   ],
                 ),

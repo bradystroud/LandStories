@@ -73,12 +73,12 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
                     RichText(
                       text: TextSpan(
                         text: '/// ',
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(color: Colors.red, fontSize: 20),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'W3W Location',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: snapshot.data.words),
+                              text: 'W3W Location: ',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                          TextSpan(text: snapshot.data.words, style: TextStyle(color: Colors.black),),
                         ],
                       ),
                     ),
