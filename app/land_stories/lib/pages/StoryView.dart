@@ -6,6 +6,7 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import '../Database/Database.dart';
 import '../Database/Models.dart';
 import '../pages/modify.dart';
+import 'globals.dart' as globals;
 
 class StoryView extends StatefulWidget {
   @override
@@ -17,6 +18,12 @@ class _StoryViewState extends State<StoryView> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        FlatButton(
+          onPressed: () {
+            setState(() {});
+          },
+          child: Text("Set State"),
+        ),
         Heading("Stories"),
         FutureVScrollList(true),
         Heading("Tasks"),
@@ -47,14 +54,14 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
     });
   }
 
-  void dispose() {
-    super.dispose();
-    
+  @override
+  void initState() {
+    super.initState();
+    print("??? please occours i beg of du bist lets GO");
   }
 
   @override
   Widget build(BuildContext context) {
-    print(isStory);
     if (isStory) {
       return FutureBuilder<List<Story>>(
         future: DBProvider.db.getAllStories(),
@@ -97,6 +104,7 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                                       builder: (context) => Modify(item),
                                     ),
                                   );
+                                  setState(() {});
                                 },
                                 child: Container(
                                   width: 220,
@@ -254,7 +262,7 @@ class _TaskCardState extends State<TaskCard> {
     if (dueDate > DateTime.now().millisecondsSinceEpoch / 1000) {
       return Colors.blueAccent;
     } else if (item.status) {
-        return Colors.blueAccent;
+      return Colors.blueAccent;
     } else {
       return Colors.red;
     }
@@ -302,17 +310,16 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                     Container(
                       child: Checkbox(
-                        value: item.status,
-                        activeColor: Colors.lightBlueAccent,
-                        onChanged: (bool newValue) {
-                          DBProvider.db.changeStatus(item);
-                          setState(() {
-                            item.status = newValue;
-                          });
-                          print("changed status: "+item.status.toString());
-                        }),
+                          value: item.status,
+                          activeColor: Colors.lightBlueAccent,
+                          onChanged: (bool newValue) {
+                            DBProvider.db.changeStatus(item);
+                            setState(() {
+                              item.status = newValue;
+                            });
+                            print("changed status: " + item.status.toString());
+                          }),
                     ),
-                    
                     Text(item.due.toString()),
                   ],
                 ),

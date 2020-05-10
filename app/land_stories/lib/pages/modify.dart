@@ -52,11 +52,11 @@ class _ModifyState extends State<Modify> {
                       oldValue: story.heading + story.context,
                     );
                     await DBProvider.db.newChange(change);
-
                     print("updated " +
                         controller1.text +
                         " and " +
                         controller2.text);
+
                     Navigator.pop(context);
                   },
                   child: Text("Save"),

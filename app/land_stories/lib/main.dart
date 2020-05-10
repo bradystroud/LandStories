@@ -14,14 +14,14 @@ void main() => runApp(MaterialApp(
       accentColor: const Color(0xFF64ffda),
       canvasColor: const Color(0xFF303030),
     ),
-    home: LandStories()));
+    home: LandStoriesHome()));
 
-class LandStories extends StatefulWidget {
+class LandStoriesHome extends StatefulWidget {
   @override
-  _LandStoriesState createState() => _LandStoriesState();
+  _LandStoriesHomeState createState() => _LandStoriesHomeState();
 }
 
-class _LandStoriesState extends State<LandStories> {
+class _LandStoriesHomeState extends State<LandStoriesHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
