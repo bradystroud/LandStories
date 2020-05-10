@@ -30,24 +30,8 @@ class NewStoryDetails extends StatefulWidget {
 }
 
 class _NewStoryDetailsState extends State<NewStoryDetails> {
-  Future<What3Words> futureWhat3Words;
 
-  Future<Position> _displayCurrentLocation() async {
-    final location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {});
-    return location;
-  }
-
-  void initState() {
-    super.initState();
-    _displayCurrentLocation().then((value) {
-      futureWhat3Words = fetchWhat3Words(
-        value.latitude.toString(),
-        value.longitude.toString(),
-      );
-    });
-  }
+  
 
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
@@ -60,37 +44,7 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
         children: <Widget>[
           TextFieldWidget("Story title", 30, controller1),
           TextFieldWidget("Story description", 100, controller2),
-          FutureBuilder<What3Words>(
-            future: futureWhat3Words,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return CircularProgressIndicator();
-              }
-              if (snapshot.hasData) {
-                print(snapshot.data.words);
-                return Column(
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        text: '/// ',
-                        style: TextStyle(color: Colors.red, fontSize: 20),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'W3W Location: ',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-                          TextSpan(text: snapshot.data.words, style: TextStyle(color: Colors.black),),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return CircularProgressIndicator();
-              // By default, show a loading spinner.
-            },
-          ),
+          W3WLocation(),
           FlatButton(
             onPressed: () async {
               Story newStory = Story(

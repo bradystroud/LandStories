@@ -20,7 +20,8 @@ class _NewTaskState extends State<NewTask> {
   Widget build(BuildContext context) {
     return PlatformScaffold(
         appBar: PlatformAppBar(
-          title: Text("New Task"),
+          title: Text("New Task", style: TextStyle(color: Colors.white),),
+          backgroundColor: Colors.grey
         ),
         body: NewTaskDetails());
   }
@@ -32,24 +33,6 @@ class NewTaskDetails extends StatefulWidget {
 }
 
 class _NewTaskDetailsState extends State<NewTaskDetails> {
-  Future<What3Words> futureWhat3Words;
-
-  Future<Position> _displayCurrentLocation() async {
-    final location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {});
-    return location;
-  }
-
-  void initState() {
-    super.initState();
-    _displayCurrentLocation().then((value) {
-      futureWhat3Words = fetchWhat3Words(
-        value.latitude.toString(),
-        value.longitude.toString(),
-      );
-    });
-  }
 
   DateTime reminderTime = DateTime.now();
   int reminderUnixTime = 0000;
@@ -91,86 +74,42 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
               ],
             ),
           ),
+          
           Padding(
-            padding: EdgeInsets.all(15),
-            child: FutureBuilder<What3Words>(
-              future: futureWhat3Words,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                }
-                if (snapshot.hasData) {
-                  print(snapshot.data.words);
-                  return Column(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: <Widget>[
+                W3WLocation(),
+                Card(
+                  child: Row(
                     children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          text: '/// ',
-                          style: TextStyle(color: Colors.red, fontSize: 20),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'W3W Location: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black)),
-                            TextSpan(
-                              text: snapshot.data.words,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ),
-                      PlatformButton(
-                        child: Text("Get location"),
-                        onPressed: () async {
-                          futureWhat3Words = null;
-                          setState(() {});
-                          //Makes futureW3W null, so the CircularProgressIndicator appears
-                          _displayCurrentLocation().then((value) {
-                            futureWhat3Words = fetchWhat3Words(
-                                value.latitude.toString(),
-                                value.longitude.toString());
-                          });
+                      CupertinoButton(
+                        child: Text("Set reminder time"),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext builder) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).copyWith().size.height /
+                                          3,
+                                  child: dateTimePicker(),
+                                );
+                              });
                         },
                       ),
+                      Material(
+                          child: Text(new DateFormat('yMMMMd')
+                              .add_jm()
+                              .format(reminderTime))),
                     ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
-                // By default, show a loading spinner.
-              },
-            ),
-          ),
-          Card(
-            child: Row(
-              children: <Widget>[
-                CupertinoButton(
-                  child: Text("Set task reminder time"),
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext builder) {
-                          return Container(
-                            height:
-                                MediaQuery.of(context).copyWith().size.height /
-                                    3,
-                            child: dateTimePicker(),
-                          );
-                        });
-                  },
+                  ),
                 ),
-                Material(
-                    child: Text(new DateFormat('yMMMMd')
-                        .add_jm()
-                        .format(reminderTime))),
               ],
             ),
           ),
           FlatButton(
             onPressed: () async {
-              print("whats going on");
               Task newTask = Task(
                 heading: controller1.text,
                 context: controller2.text,
@@ -182,6 +121,9 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
               setState(() {});
               print("Added " + controller1.text + " and " + controller2.text);
               Navigator.pop(context);
+              setState(() {
+                
+              });
             },
             child: Text("Save"),
           ),

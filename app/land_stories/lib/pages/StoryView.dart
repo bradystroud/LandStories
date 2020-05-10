@@ -47,6 +47,11 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
     });
   }
 
+  void dispose() {
+    super.dispose();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     print(isStory);

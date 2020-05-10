@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../Database/Database.dart';
-
 import '../Database/Models.dart';
 import '../widgets/textField.dart';
 
@@ -45,7 +44,8 @@ class _ModifyState extends State<Modify> {
                     );
                     await DBProvider.db.updateStory(modifiedStory);
 
-                    Change change = Change( //records change
+                    Change change = Change(
+                      //records change
                       storyid: story.id,
                       datetime: DateTime.now().toString(),
                       newValue: controller1.text + controller2.text,
@@ -74,6 +74,10 @@ class _ModifyState extends State<Modify> {
                 ),
               ],
             ),
+            PlatformButton(
+              child: Text("Add image"),
+              onPressed: () {},
+            )
           ],
         ),
       ),
