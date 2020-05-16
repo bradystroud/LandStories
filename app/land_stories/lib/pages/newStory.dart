@@ -30,9 +30,6 @@ class NewStoryDetails extends StatefulWidget {
 }
 
 class _NewStoryDetailsState extends State<NewStoryDetails> {
-
-  
-
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
 
@@ -45,6 +42,13 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
           TextFieldWidget("Story title", 30, controller1),
           TextFieldWidget("Story description", 100, controller2),
           W3WLocation(),
+          Padding(
+            padding: EdgeInsets.all(15),
+            child: PlatformButton(
+              child: Text("Identify weeds"),
+              onPressed: () {},
+            ),
+          ),
           FlatButton(
             onPressed: () async {
               Story newStory = Story(

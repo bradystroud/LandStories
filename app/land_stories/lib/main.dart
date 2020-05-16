@@ -7,8 +7,7 @@ import './widgets/sliverHeader.dart';
 void main() => runApp(MaterialApp(
   // darkTheme: darkTheme: ThemeData.dark(),,
     theme: new ThemeData(
-      brightness: Brightness.dark,
-      
+      brightness: Brightness.light,
       primarySwatch: Colors.blue,
       primaryColor: const Color(0xFF212121),
       accentColor: const Color(0xFF64ffda),
@@ -25,6 +24,7 @@ class _LandStoriesHomeState extends State<LandStoriesHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[

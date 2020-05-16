@@ -19,10 +19,13 @@ class _NewTaskState extends State<NewTask> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
+        backgroundColor: Colors.blue,
         appBar: PlatformAppBar(
-          title: Text("New Task", style: TextStyle(color: Colors.white),),
-          backgroundColor: Colors.grey
-        ),
+            title: Text(
+              "New Task",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.white),
         body: NewTaskDetails());
   }
 }
@@ -33,22 +36,23 @@ class NewTaskDetails extends StatefulWidget {
 }
 
 class _NewTaskDetailsState extends State<NewTaskDetails> {
-
   DateTime reminderTime = DateTime.now();
   int reminderUnixTime = 0000;
 
   Widget dateTimePicker() {
     return CupertinoDatePicker(
-        initialDateTime: DateTime.now().add(Duration(hours: 1)),
-        onDateTimeChanged: (DateTime dateTime) {
-          print(dateTime);
-          reminderTime = dateTime;
-          getUnixTime(reminderTime);
-          setState(() {});
-        },
-        mode: CupertinoDatePickerMode.dateAndTime,
-        minuteInterval: 1,
-        minimumDate: DateTime.now());
+      backgroundColor: Colors.white,
+      initialDateTime: DateTime.now().add(Duration(hours: 1)),
+      onDateTimeChanged: (DateTime dateTime) {
+        print(dateTime);
+        reminderTime = dateTime;
+        getUnixTime(reminderTime);
+        setState(() {});
+      },
+      mode: CupertinoDatePickerMode.dateAndTime,
+      minuteInterval: 1,
+      minimumDate: DateTime.now(),
+    );
   }
 
   getUnixTime(DateTime reminderTime) {
@@ -74,7 +78,6 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
               ],
             ),
           ),
-          
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -90,18 +93,19 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
                               context: context,
                               builder: (BuildContext builder) {
                                 return Container(
-                                  height:
-                                      MediaQuery.of(context).copyWith().size.height /
-                                          3,
+                                  height: MediaQuery.of(context)
+                                          .copyWith()
+                                          .size
+                                          .height /
+                                      3,
                                   child: dateTimePicker(),
                                 );
                               });
                         },
                       ),
-                      Material(
-                          child: Text(new DateFormat('yMMMMd')
-                              .add_jm()
-                              .format(reminderTime))),
+                      Text(
+                        new DateFormat('yMMMMd').add_jm().format(reminderTime),
+                      ),
                     ],
                   ),
                 ),
@@ -109,6 +113,9 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
             ),
           ),
           FlatButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            color: Colors.white,
             onPressed: () async {
               Task newTask = Task(
                 heading: controller1.text,
@@ -121,11 +128,12 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
               setState(() {});
               print("Added " + controller1.text + " and " + controller2.text);
               Navigator.pop(context);
-              setState(() {
-                
-              });
+              setState(() {});
             },
-            child: Text("Save"),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text("Save"),
+            ),
           ),
         ],
       ),

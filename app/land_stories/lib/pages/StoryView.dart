@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:land_stories/widgets/heading.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 import '../Database/Database.dart';
 import '../Database/Models.dart';
 import '../pages/modify.dart';
-import 'globals.dart' as globals;
 
 class StoryView extends StatefulWidget {
   @override
@@ -18,12 +18,12 @@ class _StoryViewState extends State<StoryView> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FlatButton(
-          onPressed: () {
-            setState(() {});
-          },
-          child: Text("Set State"),
-        ),
+        // FlatButton(
+        //   onPressed: () {
+        //     setState(() {});
+        //   },
+        //   child: Text("Set State"),
+        // ),
         Heading("Stories"),
         FutureVScrollList(true),
         Heading("Tasks"),
@@ -49,6 +49,8 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
   _FutureVScrollListState(this.isStory);
 
   void _onItemFocus(int index) {
+    HapticFeedback.selectionClick(); //Pointless but fun :)
+
     setState(() {
       _focusedIndex = index;
     });
@@ -57,11 +59,11 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
   @override
   void initState() {
     super.initState();
-    print("??? please occours i beg of du bist lets GO");
   }
 
   @override
   Widget build(BuildContext context) {
+    //This widget doesnt rebuild
     if (isStory) {
       return FutureBuilder<List<Story>>(
         future: DBProvider.db.getAllStories(),
@@ -88,8 +90,10 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: ScrollSnapList(
-                        itemSize: 220,
+                        itemSize: 230,
                         onItemFocus: _onItemFocus,
+                        dynamicItemSize: true,
+                        updateOnScroll: true, //Probably a big power draw, but feels awesome
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -103,8 +107,9 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                                     MaterialPageRoute(
                                       builder: (context) => Modify(item),
                                     ),
-                                  );
-                                  setState(() {});
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
                                 },
                                 child: Container(
                                   width: 220,
@@ -215,9 +220,12 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                     margin: EdgeInsets.symmetric(vertical: 10.0),
                     height: 200,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: const EdgeInsets.only(left: 1.0, right: 1.0),
                       child: ScrollSnapList(
-                        itemSize: 220,
+                        itemSize: 230,
+                        dynamicItemSize: true,
+                        focusOnItemTap: true,
+                        updateOnScroll: true,
                         onItemFocus: _onItemFocus,
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.length,
@@ -314,53 +322,21 @@ class _TaskCardState extends State<TaskCard> {
                           activeColor: Colors.lightBlueAccent,
                           onChanged: (bool newValue) {
                             DBProvider.db.changeStatus(item);
+                            print("After: "+item.status.toString());
                             setState(() {
                               item.status = newValue;
                             });
                             print("changed status: " + item.status.toString());
                           }),
                     ),
-                    Text(item.due.toString()),
+                    // Text(item.due.toString()),
                   ],
                 ),
               ),
-              // IconButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => Modify(item),
-              //       ),
-              //     );
-              //   },
-              //   icon: Icon(
-              //     Icons.info,
-              //   ),
-              // ),
             ]),
           ),
         ),
       ),
-
-      // leading: Checkbox(
-      //   onChanged: (bool value) {
-      //     DBProvider.db.changeStatus(item);
-      //     print("status for " +
-      //         item.heading +
-      //         " is changed: " +
-      //         item.status.toString());
-      //     setState(() {});
-      //   },
-      //   value: item.status,
-      // ),
-      // onTap: () {
-      //   DBProvider.db.changeStatus(item);
-      //   print("status for " +
-      //       item.heading +
-      //       " is changed: " +
-      //       item.status.toString());
-      //   setState(() {});
-      // },
     );
   }
 }

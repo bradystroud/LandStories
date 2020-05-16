@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter/services.dart';
+import 'package:land_stories/pages/FloraFaunaPage.dart';
 
 import '../Database/Database.dart';
 import '../Database/Models.dart';
@@ -50,6 +52,17 @@ class _SettingsPageState extends State<SettingsPage> {
             // },
             // ),
             PlatformButton(
+              child: Text("get flora and fauna data"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FloraFaunaPage(),
+                  ),
+                );
+              },
+            ),
+            PlatformButton(
               //Helpful button for testing the app
               child: Text("Insert testing data"),
               onPressed: () async {
@@ -96,7 +109,9 @@ class _SettingsPageState extends State<SettingsPage> {
             PlatformButton(
               child: Text("Delete all"),
               onPressed: () async {
+                HapticFeedback.heavyImpact();
                 await DBProvider.db.deleteAll();
+                Navigator.pop(context);
               },
             )
           ],

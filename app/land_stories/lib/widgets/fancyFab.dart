@@ -78,6 +78,7 @@ class _FancyFabState extends State<FancyFab>
   Widget add() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.lightBlueAccent,
         heroTag: 1,
         onPressed: () {
           animate();
@@ -86,7 +87,9 @@ class _FancyFabState extends State<FancyFab>
             MaterialPageRoute(
               builder: (context) => NewStory(),
             ),
-          );
+          ).then((value) {
+            setState(() {});
+          });
         },
         tooltip: 'Add',
         child: Icon(Icons.add),
@@ -97,13 +100,16 @@ class _FancyFabState extends State<FancyFab>
   Widget addTask() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.lightBlueAccent,
         heroTag: 2,
         onPressed: () {
           animate();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewTask()),
-          );
+          ).then((value) {
+            setState(() {});
+          });
         },
         tooltip: 'Add alert',
         child: Icon(Icons.add_alert),

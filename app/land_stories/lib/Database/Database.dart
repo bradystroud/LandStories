@@ -35,7 +35,7 @@ class DBProvider {
           "heading TEXT,"
           "context TEXT,"
           "due INTEGER,"
-          "status INTEGER" //Works as int but not
+          "status INTEGER"
           ");");
       await db.execute("CREATE TABLE Changes ("
           "id INTEGER PRIMARY KEY,"

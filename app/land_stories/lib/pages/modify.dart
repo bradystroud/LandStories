@@ -23,6 +23,7 @@ class _ModifyState extends State<Modify> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
+      backgroundColor: Colors.blue,
       appBar: PlatformAppBar(
         title: Text("Modify Story"),
       ),
@@ -36,6 +37,9 @@ class _ModifyState extends State<Modify> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  color: Colors.white,
                   onPressed: () async {
                     Story modifiedStory = Story(
                       id: story.id,
@@ -57,14 +61,22 @@ class _ModifyState extends State<Modify> {
                         " and " +
                         controller2.text);
 
-                    Navigator.pop(context);
+                    Navigator.pop(context, 1);
                   },
-                  child: Text("Save"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text("Save", style: TextStyle(fontSize: 15),),
+                  ),
                 ),
                 FlatButton(
-                  child: Text(
-                    "Delete",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
                   ),
                   onPressed: () async {
                     await DBProvider.db.deleteStories(story.id);
