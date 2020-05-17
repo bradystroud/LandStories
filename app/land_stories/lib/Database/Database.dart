@@ -182,7 +182,7 @@ class DBProvider {
 
   deleteAll() async {
     final db = await database;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) { //Inbuilt delete all is broken. using this loop as a temporary fix.
       db.delete("Stories", where: "id = ?", whereArgs: [i]);
       db.delete("Tasks", where: "id = ?", whereArgs: [i]);
     }
