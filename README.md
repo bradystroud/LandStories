@@ -1,7 +1,13 @@
 # Land Stories
 A mobile app that stores quick snippets of things spotted outside and reminds you of tasks that need to get done. 
 
-This app is designed and built for a school project.
+This app is designed and built for a school project. See task sheet.pdf for more information on the task.
+
+<video  width="295" height="640" controls autoplay loop>
+  <source src="App Preview.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 ## Features
 
