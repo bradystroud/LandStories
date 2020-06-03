@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+//MODELS: All the models for all the database entries are here
+
 Story storyFromJson(String str) {
   final jsonData = json.decode(str);
   return Story.fromMap(jsonData);
@@ -10,6 +12,7 @@ String storyToJson(Story data) {
   return json.encode(dyn);
 }
 
+//Story Model
 class Story {
   int id;
   String heading;
@@ -34,11 +37,13 @@ class Story {
       };
 }
 
+
 Task taskFromJson(String str) {
   final jsonData = json.decode(str);
   return Task.fromMap(jsonData);
 }
 
+//Task Model
 class Task {
   int id;
   String heading;
@@ -76,6 +81,7 @@ Task changeFromJson(String str) {
   return Task.fromMap(jsonData);
 }
 
+//Change Model
 class Change {
   int id;
   int storyid;

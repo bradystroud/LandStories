@@ -16,7 +16,7 @@ class _IdentifyWeedsState extends State<IdentifyWeeds> {
       body: Center(
         child: Column(
           children: <Widget>[
-            // TODO: Questions
+            // TODO: Quiz to identify plant species
           ],
         ),
       ),

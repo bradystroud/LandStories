@@ -20,24 +20,24 @@ class DBProvider {
     return _database;
   }
 
-  initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  initDB() async { //Initializes database adn tables
+    Directory documentsDirectory = await getApplicationDocumentsDirectory(); //Gets path to apps directory
     String path = join(documentsDirectory.path, "TestDB.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute("CREATE TABLE Stories ("
+      await db.execute("CREATE TABLE Stories (" //Create storeis table
           "id INTEGER PRIMARY KEY,"
           "heading TEXT,"
           "context TEXT"
           ");");
-      await db.execute("CREATE TABLE Tasks ("
+      await db.execute("CREATE TABLE Tasks (" //Create task stable
           "id INTEGER PRIMARY KEY,"
           "heading TEXT,"
           "context TEXT,"
-          "due INTEGER,"
-          "status INTEGER"
+          "due INTEGER," //Time that task is due
+          "status INTEGER" //Complete or not complete
           ");");
-      await db.execute("CREATE TABLE Changes ("
+      await db.execute("CREATE TABLE Changes (" //Create changes table
           "id INTEGER PRIMARY KEY,"
           "storyid INTEGER,"
           "datetime INTEGER,"
@@ -51,7 +51,7 @@ class DBProvider {
     final db = await database;
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Changes");
     int id = table.first["id"];
-    if (id == null) { //Don't know why i need this... dont need it on any other tables but it makes it work so i need it.
+    if (id == null) { //Don't know why i need this... dont need it on any other tables, but it makes it work so i kept it.
       id = 1;
     }
     var insert = await db.rawInsert(
@@ -67,7 +67,7 @@ class DBProvider {
     return insert;
   }
 
-  newStory(Story newStory) async {
+  newStory(Story newStory) async { //Inserts new Story
     final db = await database;
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Stories");
@@ -80,7 +80,7 @@ class DBProvider {
     return raw;
   }
 
-  newTask(Task newTask) async {
+  newTask(Task newTask) async { //Inserts new Task
     final db = await database;
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Tasks");
@@ -99,7 +99,7 @@ class DBProvider {
     return raw;
   }
 
-  changeStatus(Task task) async {
+  changeStatus(Task task) async { //Changes the status of a task
     final db = await database;
     Task status = Task(
         id: task.id,
@@ -116,7 +116,7 @@ class DBProvider {
     return res;
   }
 
-  updateStory(Story newStory) async {
+  updateStory(Story newStory) async { //Updates Story
     final db = await database;
     print('updating id of:' + newStory.id.toString());
     var res = await db.update("Stories", newStory.toMap(),
@@ -124,7 +124,7 @@ class DBProvider {
     return res;
   }
 
-  updateTask(Task newTask) async {
+  updateTask(Task newTask) async { //Updates Task
     final db = await database;
     print('updating id of:' + newTask.id.toString());
     var res = await db.update("Tasks", newTask.toMap(),
@@ -132,13 +132,13 @@ class DBProvider {
     return res;
   }
 
-  getStory(int id) async {
+  getStory(int id) async { //Gets Story
     final db = await database;
     var res = await db.query("Stories", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? Story.fromMap(res.first) : null;
   }
 
-  getTask(int id) async {
+  getTask(int id) async { //Gets task
     final db = await database;
     var res = await db.query("Tasks", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? Task.fromMap(res.first) : null;
@@ -154,7 +154,7 @@ class DBProvider {
     return list;
   }
 
-  Future<List<Story>> getAllStories() async {
+  Future<List<Story>> getAllStories() async { //Gets all Stories
     final db = await database;
     var res = await db.query("Stories");
     List<Story> list =
@@ -162,7 +162,7 @@ class DBProvider {
     return list;
   }
 
-  Future<List<Task>> getAllTasks() async {
+  Future<List<Task>> getAllTasks() async { //Gets all Tasks
     final db = await database;
     var res = await db.query("Tasks");
     List<Task> list =
@@ -170,17 +170,17 @@ class DBProvider {
     return list;
   }
 
-  deleteStories(int id) async {
+  deleteStories(int id) async { //Deletes Story
     final db = await database;
     return db.delete("Stories", where: "id = ?", whereArgs: [id]);
   }
 
-  deleteTasks(int id) async {
+  deleteTasks(int id) async { //Deletes Task
     final db = await database;
     return db.delete("Tasks", where: "id = ?", whereArgs: [id]);
   }
 
-  deleteAll() async {
+  deleteAll() async { //Deletes all
     final db = await database;
     for (int i = 0; i < 100; i++) { //Inbuilt delete all is broken. using this loop as a temporary fix.
       db.delete("Stories", where: "id = ?", whereArgs: [i]);

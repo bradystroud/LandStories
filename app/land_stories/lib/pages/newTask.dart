@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
 
 import '../Database/getW3W.dart';
 import '../Database/Database.dart';

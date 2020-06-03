@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:land_stories/widgets/StoryViewCards.dart';
 import 'package:land_stories/widgets/heading.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
@@ -25,28 +26,29 @@ class _StoryViewState extends State<StoryView> {
         //   child: Text("Set State"),
         // ),
         Heading("Stories"),
-        FutureVScrollList(true),
+        FutureHScrollList(true),
         Heading("Tasks"),
-        FutureVScrollList(false),
+        FutureHScrollList(false),
       ],
     );
   }
 }
 
-class FutureVScrollList extends StatefulWidget {
+class FutureHScrollList extends StatefulWidget {
+  //Horizontal scrolling list
   final bool isStory;
 
-  FutureVScrollList(this.isStory);
+  FutureHScrollList(this.isStory);
 
   @override
-  _FutureVScrollListState createState() => _FutureVScrollListState(isStory);
+  _FutureHScrollListState createState() => _FutureHScrollListState(isStory);
 }
 
-class _FutureVScrollListState extends State<FutureVScrollList> {
+class _FutureHScrollListState extends State<FutureHScrollList> {
   int _focusedIndex = 0;
   bool isStory;
 
-  _FutureVScrollListState(this.isStory);
+  _FutureHScrollListState(this.isStory);
 
   void _onItemFocus(int index) {
     HapticFeedback.selectionClick(); //Pointless but fun :)
@@ -63,7 +65,6 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
 
   @override
   Widget build(BuildContext context) {
-    //This widget doesnt rebuild
     if (isStory) {
       return FutureBuilder<List<Story>>(
         future: DBProvider.db.getAllStories(),
@@ -93,91 +94,28 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                         itemSize: 230,
                         onItemFocus: _onItemFocus,
                         dynamicItemSize: true,
-                        updateOnScroll: true, //Probably a big power draw, but feels awesome
+                        updateOnScroll:
+                            true, //Probably a big power draw, but feels awesome
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           Story item = snapshot.data[index];
                           return Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Modify(item),
-                                    ),
-                                  ).then((value) {
-                                    setState(() {});
-                                  });
-                                },
-                                child: Container(
-                                  width: 220,
-                                  child: Card(
-                                    color: Colors.blueAccent,
-                                    child: Row(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              width: 180,
-                                              child: Text(
-                                                item.heading,
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 180,
-                                              child: Text(item.context),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      // IconButton(
-                                      //   onPressed: () {
-                                      //     Navigator.push(
-                                      //       context,
-                                      //       MaterialPageRoute(
-                                      //         builder: (context) => Modify(item),
-                                      //       ),
-                                      //     );
-                                      //   },
-                                      //   icon: Icon(
-                                      //     Icons.info,
-                                      //   ),
-                                      // ),
-                                    ]),
+                            padding: const EdgeInsets.all(8),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Modify(item),
                                   ),
-                                ),
-                              )
-
-                              // leading: Checkbox(
-                              //   onChanged: (bool value) {
-                              //     DBProvider.db.changeStatus(item);
-                              //     print("status for " +
-                              //         item.heading +
-                              //         " is changed: " +
-                              //         item.status.toString());
-                              //     setState(() {});
-                              //   },
-                              //   value: item.status,
-                              // ),
-                              // onTap: () {
-                              //   DBProvider.db.changeStatus(item);
-                              //   print("status for " +
-                              //       item.heading +
-                              //       " is changed: " +
-                              //       item.status.toString());
-                              //   setState(() {});
-                              // },
-                              );
+                                ).then((value) {
+                                  setState(() {});
+                                });
+                              },
+                              child: StoryCard(item: item),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -197,6 +135,7 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
         },
       );
     } else {
+      //Same as above, just tasks not stories.
       return FutureBuilder<List<Task>>(
         future: DBProvider.db.getAllTasks(),
         builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
@@ -231,7 +170,7 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           Task item = snapshot.data[index];
-                          return TaskCard(item);
+                          return TaskCard(item: item);
                         },
                       ),
                     ),
@@ -251,92 +190,5 @@ class _FutureVScrollListState extends State<FutureVScrollList> {
         },
       );
     }
-  }
-}
-
-class TaskCard extends StatefulWidget {
-  final Task item;
-
-  TaskCard(this.item);
-  @override
-  _TaskCardState createState() => _TaskCardState(item);
-}
-
-class _TaskCardState extends State<TaskCard> {
-  bool test = false;
-  Task item;
-
-  Color checkDueDate(dueDate) {
-    if (dueDate > DateTime.now().millisecondsSinceEpoch / 1000) {
-      return Colors.blueAccent;
-    } else if (item.status) {
-      return Colors.blueAccent;
-    } else {
-      return Colors.red;
-    }
-  }
-
-  _TaskCardState(this.item);
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: InkWell(
-        onTap: () {
-          //TODO: modify for tasks
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => Modify(item),
-          //   ),
-          // );
-        },
-        child: Container(
-          width: 220,
-          child: Card(
-            color: checkDueDate(item.due),
-            child: Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 180,
-                      child: Text(
-                        item.heading,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 180,
-                      child: Text(item.context),
-                    ),
-                    Container(
-                      child: Checkbox(
-                          value: item.status,
-                          activeColor: Colors.lightBlueAccent,
-                          onChanged: (bool newValue) {
-                            DBProvider.db.changeStatus(item);
-                            print("After: "+item.status.toString());
-                            setState(() {
-                              item.status = newValue;
-                            });
-                            print("changed status: " + item.status.toString());
-                          }),
-                    ),
-                    // Text(item.due.toString()),
-                  ],
-                ),
-              ),
-            ]),
-          ),
-        ),
-      ),
-    );
   }
 }

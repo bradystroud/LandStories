@@ -5,7 +5,7 @@ This app is designed and built for a school project. See task sheet.pdf for more
 
 <video  width="295" height="640" controls autoplay loop>
   <source src="App Preview.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+  This browser does not support the video tag.
 </video>
 
 
