@@ -7,12 +7,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 Future<What3Words> fetchWhat3Words(lat, long) async {
-  final response = await http.get(
-      'https://api.what3words.com/v3/convert-to-3wa?coordinates=' +
-          lat +
-          ',' +
-          long +
-          '2&language=en&key=6U7VA8V0'); //This is the URL to get the What3Words. The 'lat' and 'long' is the users latitude and longitude concatenated into the URL 
+  final response = await http.get('https://api.what3words.com/v3/convert-to-3wa?coordinates=' +
+      lat +
+      ',' +
+      long +
+      '2&language=en&key=6U7VA8V0'); //This is the URL to get the What3Words. The 'lat' and 'long' is the users latitude and longitude concatenated into the URL
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -32,7 +31,8 @@ class What3Words {
 
   What3Words({this.words});
 
-  factory What3Words.fromJson(Map<String, dynamic> json) { //Parse JSON
+  factory What3Words.fromJson(Map<String, dynamic> json) {
+    //Parse JSON
     return What3Words(
       words: json['words'],
     );
@@ -47,15 +47,17 @@ class W3WLocation extends StatefulWidget {
 class _W3WLocationState extends State<W3WLocation> {
   Future<What3Words> futureWhat3Words;
 
-  Future<Position> _displayCurrentLocation() async { //Returns current location in latitude and longitude
+  Future<Position> _displayCurrentLocation() async {
+    //Returns current location in latitude and longitude
     final location = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best); //gets accurate location
     setState(() {});
-    return location; 
+    return location;
   }
 
   @override
-  void initState() { //Init func runs when the Widget builds
+  void initState() {
+    //Init func runs when the Widget builds
     super.initState();
     _displayCurrentLocation().then((value) {
       futureWhat3Words = fetchWhat3Words(
@@ -70,7 +72,8 @@ class _W3WLocationState extends State<W3WLocation> {
     return FutureBuilder<What3Words>(
       future: futureWhat3Words,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) { //if it hasn't loaded, show a loading spinner
+        if (snapshot.connectionState != ConnectionState.done) {
+          //if it hasn't loaded, show a loading spinner
           return CircularProgressIndicator();
         }
         if (snapshot.hasData) {
@@ -87,9 +90,7 @@ class _W3WLocationState extends State<W3WLocation> {
                       children: <TextSpan>[
                         TextSpan(
                             text: 'W3W Location: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
                         TextSpan(
                           text: snapshot.data.words,
                           style: TextStyle(color: Colors.black),
@@ -97,20 +98,6 @@ class _W3WLocationState extends State<W3WLocation> {
                       ],
                     ),
                   ),
-                  // FlatButton(
-                  //   child: Text("Get location"),                 //Get location button. Only for testing.
-                  //   onPressed: () async {
-                  //     futureWhat3Words = null;
-                  //     //Makes futureW3W null, so the CircularProgressIndicator appears
-                  //     _displayCurrentLocation().then((value) {
-                  //       futureWhat3Words = fetchWhat3Words(
-                  //           value.latitude.toString(),
-                  //           value.longitude.toString());
-                  //     });
-                  //     setState(() {
-                  //     });
-                  //   },
-                  // ),
                 ],
               ),
             ),
@@ -118,7 +105,7 @@ class _W3WLocationState extends State<W3WLocation> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}"); //Returns error
         }
-        return CircularProgressIndicator(); 
+        return CircularProgressIndicator();
         // By default, show a loading spinner.
       },
     );

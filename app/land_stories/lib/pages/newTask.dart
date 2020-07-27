@@ -17,14 +17,15 @@ class _NewTaskState extends State<NewTask> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
-        backgroundColor: Colors.blue,
-        appBar: PlatformAppBar(
-            title: Text(
-              "New Task",
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Colors.white),
-        body: NewTaskDetails());
+      backgroundColor: Colors.blue,
+      appBar: PlatformAppBar(
+          title: Text(
+            "New Task",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white),
+      body: NewTaskDetails(),
+    );
   }
 }
 
@@ -91,11 +92,7 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
                               context: context,
                               builder: (BuildContext builder) {
                                 return Container(
-                                  height: MediaQuery.of(context)
-                                          .copyWith()
-                                          .size
-                                          .height /
-                                      3,
+                                  height: MediaQuery.of(context).copyWith().size.height / 3,
                                   child: dateTimePicker(),
                                 );
                               });
@@ -111,8 +108,7 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
             ),
           ),
           FlatButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
             color: Colors.white,
             onPressed: () async {
               Task newTask = Task(
