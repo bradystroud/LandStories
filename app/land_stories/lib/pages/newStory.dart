@@ -7,6 +7,10 @@ import '../Database/Models.dart';
 import '../widgets/textField.dart';
 
 class NewStory extends StatefulWidget {
+  final Function callback;
+
+  NewStory(this.callback);
+
   @override
   _NewStoryState createState() => _NewStoryState();
 }
@@ -18,11 +22,15 @@ class _NewStoryState extends State<NewStory> {
         appBar: PlatformAppBar(
           title: Text("New Story"),
         ),
-        body: NewStoryDetails());
+        body: NewStoryDetails(widget.callback));
   }
 }
 
 class NewStoryDetails extends StatefulWidget {
+  final Function callback;
+
+  NewStoryDetails(this.callback);
+
   @override
   _NewStoryDetailsState createState() => _NewStoryDetailsState();
 }
@@ -49,12 +57,13 @@ class _NewStoryDetailsState extends State<NewStoryDetails> {
           ),
           FlatButton(
             onPressed: () async {
+              this.widget.callback("hello");
               Story newStory = Story(
                 heading: controller1.text,
                 context: controller2.text,
               );
               await DBProvider.db.newStory(newStory);
-              setState(() {});
+              // setState(() {});
               print("Added " + controller1.text + " and " + controller2.text);
               Navigator.pop(context);
             },

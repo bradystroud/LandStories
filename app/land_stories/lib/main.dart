@@ -4,7 +4,8 @@ import './widgets/fancyFab.dart';
 import './pages/StoryView.dart';
 import './widgets/sliverHeader.dart';
 
-void main() => runApp( //Main function
+void main() => runApp(
+      //Main function
       MaterialApp(
         // darkTheme: darkTheme: ThemeData.dark(),,
         theme: new ThemeData(
@@ -25,6 +26,22 @@ class LandStoriesHome extends StatefulWidget {
 }
 
 class _LandStoriesHomeState extends State<LandStoriesHome> {
+  FancyFab newStory;
+
+  String abc;
+
+  @override
+  void initState() {
+    super.initState();
+    //
+  }
+
+  callback(newAbc) {
+    setState(() {
+      abc = newAbc;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +56,7 @@ class _LandStoriesHomeState extends State<LandStoriesHome> {
         body: StoryView(), //View with stories and tasks. The body of the app
       ),
       floatingActionButton:
-          FancyFab(), //The Floating action button with animations
+          FancyFab(callback: callback), //The Floating action button with animations
     );
   }
 }

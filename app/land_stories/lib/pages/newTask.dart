@@ -9,6 +9,11 @@ import '../Database/Models.dart';
 import '../widgets/textField.dart';
 
 class NewTask extends StatefulWidget {
+
+  final Function callback;
+
+  NewTask(this.callback);
+
   @override
   _NewTaskState createState() => _NewTaskState();
 }
@@ -24,12 +29,16 @@ class _NewTaskState extends State<NewTask> {
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.white),
-      body: NewTaskDetails(),
+      body: NewTaskDetails(widget.callback),
     );
   }
 }
 
 class NewTaskDetails extends StatefulWidget {
+  final Function callback;
+
+  NewTaskDetails(this.callback);
+
   @override
   _NewTaskDetailsState createState() => _NewTaskDetailsState();
 }
@@ -111,6 +120,7 @@ class _NewTaskDetailsState extends State<NewTaskDetails> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
             color: Colors.white,
             onPressed: () async {
+              widget.callback("");
               Task newTask = Task(
                 heading: controller1.text,
                 context: controller2.text,

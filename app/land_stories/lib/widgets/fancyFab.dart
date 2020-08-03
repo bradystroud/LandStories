@@ -9,8 +9,9 @@ class FancyFab extends StatefulWidget {
   final Function() onPressed;
   final String tooltip;
   final IconData icon;
+   Function callback;
 
-  FancyFab({this.onPressed, this.tooltip, this.icon});
+  FancyFab({this.onPressed, this.tooltip, this.icon, @required this.callback});
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -85,7 +86,7 @@ class _FancyFabState extends State<FancyFab>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NewStory(),
+              builder: (context) => NewStory(widget.callback),
             ),
           ).then((value) {
             setState(() {});
@@ -106,7 +107,7 @@ class _FancyFabState extends State<FancyFab>
           animate();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NewTask()),
+            MaterialPageRoute(builder: (context) => NewTask(widget.callback)),
           ).then((value) {
             setState(() {});
           });

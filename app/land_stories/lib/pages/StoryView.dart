@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:land_stories/widgets/StoryViewCards.dart';
-import 'package:land_stories/widgets/heading.dart';
+
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 import '../Database/Database.dart';
+import '../widgets/StoryViewCards.dart';
+import '../widgets/heading.dart';
 import '../pages/modify.dart';
 
 class StoryView extends StatefulWidget {
@@ -47,6 +48,12 @@ class _FutureHScrollListState extends State<FutureHScrollList> {
   bool isAStory;
 
   _FutureHScrollListState(this.isAStory);
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _onItemFocus(int index) {
     HapticFeedback.selectionClick(); //Pointless but fun :)
