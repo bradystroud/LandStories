@@ -50,7 +50,7 @@ class _LandStoriesHomeState extends State<LandStoriesHome> {
         //This is part of the scrolling gradient header
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
-            SliverHeader(),
+            SliverHeader(callback),
           ];
         },
         body: StoryView(), //View with stories and tasks. The body of the app

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../pages/SettingsPage.dart';
 
 class SliverHeader extends StatelessWidget {
+  final Function callback;
+
+  SliverHeader(this.callback);
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -15,7 +19,7 @@ class SliverHeader extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SettingsPage(),
+              builder: (context) => SettingsPage(callback),
             ),
           );
         },
@@ -25,6 +29,7 @@ class SliverHeader extends StatelessWidget {
           "Land Stories",
           style: TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.bold,
             fontSize: 30.0,
           ),
         ),

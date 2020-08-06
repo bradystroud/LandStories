@@ -23,11 +23,6 @@ class _StoryViewState extends State<StoryView> {
         FutureHScrollList(true),
         Heading("Tasks"),
         FutureHScrollList(false),
-        RaisedButton(
-          onPressed: () {
-            setState(() {});
-          },
-        )
       ],
     );
   }

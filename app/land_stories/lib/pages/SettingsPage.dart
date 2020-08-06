@@ -8,6 +8,11 @@ import '../Database/Database.dart';
 import '../Database/Models.dart';
 
 class SettingsPage extends StatefulWidget {
+  final Function callback;
+
+  SettingsPage(this.callback);
+
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -104,11 +109,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   await DBProvider.db.newTask(task);
                   print("Added " + task.heading + " and " + task.context);
                 }
+                widget.callback("");
               },
             ),
             PlatformButton(
               child: Text("Delete all"),
               onPressed: () async {
+                widget.callback("");
                 HapticFeedback.heavyImpact();
                 await DBProvider.db.deleteAll();
                 Navigator.pop(context);
